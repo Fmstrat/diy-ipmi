@@ -15,20 +15,20 @@ This system is under development.
 
 ## Setting up the hardware
 
-- Connect the Pi3 to the relay board using this method: `http://youtu.be/oaf_zQcrg7g`
-- Connect the Pi0 to the Pi3 using this method: `https://www.thepolyglotdeveloper.com/2017/02/connect-raspberry-pi-pi-zero-usb-ttl-serial-cable/`. You do not need to supply power to the Pi0, it will get power via the GPIO pins.
+- Connect the Pi3 to the relay board using this method: http://youtu.be/oaf_zQcrg7g
+- Connect the Pi0 to the Pi3 using this method: https://www.thepolyglotdeveloper.com/2017/02/connect-raspberry-pi-pi-zero-usb-ttl-serial-cable/. You do not need to supply power to the Pi0, it will get power via the GPIO pins.
 - Plug the easycap device and the USB TTL device into the USB ports on the Pi3
 
 
 ## Setting up the Pi 3
 
-Flash `http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-09-08/`. As of this writing you may use the latest Stretch version, however this was the version used successfully.
+Flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-09-08/. As of this writing you may use the latest Stretch version, however this was the version used successfully.
 
 To be able to reboot the computer, run:
 ```
 mkdir -p /opt/bin
 cd /opt/bin
-wget AAAAAAAAAAAA/rebootServer.py
+wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/Pi3/rebootServer.py
 chmod +x /opt/bin/rebootServer.py
 ```
 Now test this script to see if it resets the computer. Look in the python script to see the numbers associated with which of the 8 relays you could use for multiple computers.
@@ -51,7 +51,7 @@ NEED TO FINISH
 
 ## Setting up the Pi 0
 
-Flash `http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-03-03/`. You must use this version for this to work. There aren't really security implications since the Pi0 can only be accessed from a serial session on the Pi3.
+Flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-03-03/. You must use this version for this to work. There aren't really security implications since the Pi0 can only be accessed from a serial session on the Pi3.
 
 Before putting the SD into the Pi0, Add this to the end of /boot/config.txt:
 ```
@@ -71,7 +71,7 @@ On the Pi0, run:
 cd /home/pi
 wget https://raw.githubusercontent.com/pelya/android-keyboard-gadget/master/hid-gadget-test/jni/hid-gadget-test.c
 gcc -o sendkeys hid-gadget-test.c
-wget AAAAAA/enableHID.sh
+wget https://github.com/Fmstrat/diy-ipmi/blob/master/Pi0/enableHID.sh
 chmod +x /home/pi/enableHID.sh
 sudo /home/pi/enableHID.sh
 ```
