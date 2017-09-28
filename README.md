@@ -58,7 +58,7 @@ Before putting the SD into the Pi0, Add this to the end of /boot/config.txt:
 dtoverlay=dwc2
 enable_uart=1
 ```
-Now insert the SD card and boot the Pi3 (which in turn boots the Pi0 since it get's power from the Pi3).
+Now insert the SD card and boot the Pi0 (which in turn boots the Pi0 since it get's power from the Pi3).
 
 Access the Pi0 from the Pi3 by SSHing into the Pi3 and running:
 ```
