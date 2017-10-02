@@ -36,15 +36,19 @@ Now test this script to see if it resets the computer. Look in the python script
 Next, move on to video caputure.
 ```
 apt-get update
-apt-get install gstreamer mencoder screen
+apt-get install gstreamer mencoder libav-tools screen
+NOTE: Probably only need libav-tools and screen for the web version
 ```
 Connect a source and test to see if it's working. (Input 0 is usually Composite, and Input 1 is usually S-Video)
 ```
-mencoder tv:// -tv driver=v4l2:norm=NTSC:device=/dev/video0:input=0:fps=5 -nosound -ovc copy -o test.avi
+mencoder tv:// -tv driver=v4l2:norm=NTSC:device=/dev/video0:input=1:fps=5 -nosound -ovc copy -o test.avi
+v4l2-ctl -d /dev/video0 --set-input=1
+avconv -f video4linux2 -i /dev/video0 -vframes 1 -s 720x480 test.jpg
 ```
 Control-C that, and sftp the file to a host to playback:
 ```
 sftp test.avi root@hostname:/folder/test.avi
+sftp test.avi root@hostname:/folder/test.jpg
 ```
 NEED TO FINISH
 
