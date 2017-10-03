@@ -50,6 +50,30 @@ Control-C that, and sftp the file to a host to playback:
 sftp test.avi root@hostname:/folder/test.avi
 sftp test.avi root@hostname:/folder/test.jpg
 ```
+
+Next, set up the HTTP server.
+```
+sudo apt-get install lighttpd php5 php5-cgi
+sudo lighty-enable-mod fastcgi-php
+
+echo 'ipmi:password' | sudo tee --append /var/www/ipmipasswd
+
+echo '' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo 'server.modules += ( "mod_auth" )' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo 'auth.debug = 2' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo 'auth.backend = "plain"' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo 'auth.backend.plain.userfile = "/var/www/ipmipasswd"' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo 'auth.require = ( "/" =>' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo '        (' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo '                "method" => "basic",' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo '                "realm" => "Password protected area",' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo '                "require" => "user=ipmi"' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo '        )' | sudo tee --append /etc/lighttpd/lighttpd.conf
+echo ')' | sudo tee --append /etc/lighttpd/lighttpd.conf
+
+sudo service lighttpd force-reload
+```
+
 NEED TO FINISH
 
 
