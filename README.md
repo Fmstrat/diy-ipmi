@@ -13,7 +13,7 @@ This system is under development.
 - HDMI to S-Video (not all options work, but this one is tested) (https://www.amazon.com/gp/product/B01E56CV42)
 - USB TTL Serial cable (https://www.amazon.com/gp/product/B00QT7LQ88)
 
-
+A full wishlist totaling under $120 at the time of this writing can be found at http://a.co/8JlyjBq
 
 ## Before assembling
 
