@@ -138,7 +138,7 @@ echo "echo /home/pi/enableHID.sh | sudo tee --append /etc/rc.local" >> /dev/ttyU
 echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 ```
 
-## Get Started
+## Get started
 
 You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`. From here you can set up SSL and port forwarding to the device as your situation requires.
 
