@@ -2,15 +2,15 @@
 This system is under development.
 
 ## Requirements
-- Rasberry Pi 3 Model B (make sure you use a 2.5Amp or greater power supply)
-- Rasberry Pi Zero 1.3
-- GPIO pins for Pi Zero
+- Rasberry Pi 3 Model B (https://www.adafruit.com/product/3055)
+- Rasberry Pi Zero 1.3 (https://www.adafruit.com/product/2885)
+- 2.5Amp power (https://www.amazon.com/gp/product/B01FM0XOH8)
+- GPIO pins for Pi Zero (https://www.adafruit.com/product/2822)
 - GPIO cables (https://www.amazon.com/gp/product/B01BV2A54G)
 - 2x MicroSD cards (https://www.amazon.com/dp/B06XWN9Q99)
 - Relay board (https://www.amazon.com/dp/B0057OC5WK)
-- S-video cable
 - Easycap UTV007 device (https://www.amazon.com/dp/B0126O0RDC)
-- HDMI to S-Video (not all work) (https://www.amazon.com/gp/product/B01E56CV42)
+- HDMI to S-Video (not all options work, but this one is tested) (https://www.amazon.com/gp/product/B01E56CV42)
 - USB TTL Serial cable (https://www.amazon.com/gp/product/B00QT7LQ88)
 
 
