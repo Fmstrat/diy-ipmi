@@ -99,6 +99,7 @@ echo "mount -t tmpfs -o size=3m tmps /mnt/ramdisk" | sudo tee --append /etc/rc.l
 echo "chown www-data /mnt/ramdisk" | sudo tee --append /etc/rc.local
 echo "v4l2-ctl -d /dev/video0 --set-input=1" | sudo tee --append /etc/rc.local
 echo "sleep 10" | sudo tee --append /etc/rc.local
+echo "echo '' >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "echo pi >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "echo raspberry >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "chmod a+rw /dev/ttyUSB0" | sudo tee --append /etc/rc.local
@@ -118,7 +119,7 @@ On the Pi3, run:
 ```
 echo "" >> /dev/ttyUSB0
 echo "pi" >> /dev/ttyUSB0
-echo "rasperry" >> /dev/ttyUSB0
+echo "raspberry" >> /dev/ttyUSB0
 
 #wget https://raw.githubusercontent.com/pelya/android-keyboard-gadget/master/hid-gadget-test/jni/hid-gadget-test.c
 #wget https://github.com/Fmstrat/diy-ipmi/blob/master/Pi0/enableHID.sh
@@ -136,6 +137,10 @@ echo "sudo sed -i 's/exit 0//g' /etc/rc.local" >> /dev/ttyUSB0
 echo "echo /home/pi/enableHID.sh | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 ```
+
+## Get Started
+
+You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`. From here you can set up SSL and port forwarding to the device as your situation requires.
 
 
 ## Troubleshooting
