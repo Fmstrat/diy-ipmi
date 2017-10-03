@@ -51,14 +51,14 @@ apt-get update
 apt-get install libav-tools screen lighttpd php5 php5-cgi
 cd /opt
 git clone https://github.com/Fmstrat/diy-ipmi
+chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
 ```
 
 To test the ability to reboot the computer via the relay board, run:
 ```
-chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
 /opt/diy-ipmi/Pi3/rebootServer.py
 ```
-Now test this script to see if it resets the computer. Look in the python script to see the numbers associated with which of the 8 relays you could use for multiple computers.
+Test this script to see if it resets the computer. If you are interested, look in the python script to see the numbers associated with which of the 8 relays you could use for multiple computers.
 
 Next, set up the HTTP server.
 ```
