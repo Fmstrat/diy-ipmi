@@ -29,7 +29,13 @@ enable_uart=1
 
 
 ## Setting up the hardware
+Here is a diagram of how you connect all of the pieces:
 
+![Diagram](https://github.com/Fmstrat/diy-ipmi/raw/master/Resources/Diagram-sm.png)
+
+View the [high resolution version](https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/Resources/Diagram.png)
+
+The detailed process is to:
 - Connect the Pi3 to the relay board using this method: http://youtu.be/oaf_zQcrg7g
 - Connect the Pi0 to the Pi3 using this method: https://www.thepolyglotdeveloper.com/2017/02/connect-raspberry-pi-pi-zero-usb-ttl-serial-cable/. You do not need to supply power to the Pi0, it will get power via the GPIO pins.
 - Plug the easycap device and the USB TTL device into the USB ports on the Pi3
