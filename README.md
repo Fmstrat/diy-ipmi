@@ -10,7 +10,22 @@ This system is under development.
 - Relay board (https://www.amazon.com/dp/B0057OC5WK)
 - S-video cable
 - Easycap UTV007 device (https://www.amazon.com/dp/B0126O0RDC)
+- HDMI to S-Video (not all work) (https://www.amazon.com/gp/product/B01E56CV42)
 - USB TTL Serial cable (https://www.amazon.com/gp/product/B00QT7LQ88)
+
+
+
+## Before assembling
+
+On the Pi3, flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-09-08/. As of this writing you may use the latest Stretch version, however this was the version used successfully.
+
+On the Pi0, flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-03-03/. You must use this version for this to work. There aren't really security implications since the Pi0 can only be accessed from a serial session on the Pi3.
+
+Before putting the SD into the Pi0, Add this to the end of /boot/config.txt:
+```
+dtoverlay=dwc2
+enable_uart=1
+```
 
 
 ## Setting up the hardware
@@ -18,45 +33,35 @@ This system is under development.
 - Connect the Pi3 to the relay board using this method: http://youtu.be/oaf_zQcrg7g
 - Connect the Pi0 to the Pi3 using this method: https://www.thepolyglotdeveloper.com/2017/02/connect-raspberry-pi-pi-zero-usb-ttl-serial-cable/. You do not need to supply power to the Pi0, it will get power via the GPIO pins.
 - Plug the easycap device and the USB TTL device into the USB ports on the Pi3
+- Connect the HDMI out of your computer into the HDMI to S-Video box, and connect it to the EasyCap device via an S-Video cable
+- Connect the Pi0 to the server via a microUSB to USB male cable
 
 
 ## Setting up the Pi 3
 
-Flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-09-08/. As of this writing you may use the latest Stretch version, however this was the version used successfully.
-
-To be able to reboot the computer, run:
+First, let's get all the software we need:
 ```
-mkdir -p /opt/bin
-cd /opt/bin
-wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/Pi3/rebootServer.py
-chmod +x /opt/bin/rebootServer.py
+apt-get update
+apt-get install libav-tools screen lighttpd php5 php5-cgi
+cd /opt
+git clone https://github.com/Fmstrat/diy-ipmi
+```
+
+To test the ability to reboot the computer via the relay board, run:
+```
+#wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/Pi3/rebootServer.py
+#chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
+/opt/diy-ipmi/Pi3/rebootServer.py
 ```
 Now test this script to see if it resets the computer. Look in the python script to see the numbers associated with which of the 8 relays you could use for multiple computers.
 
-Next, move on to video caputure.
-```
-apt-get update
-apt-get install gstreamer mencoder libav-tools screen
-NOTE: Probably only need libav-tools and screen for the web version
-```
-Connect a source and test to see if it's working. (Input 0 is usually Composite, and Input 1 is usually S-Video)
-```
-mencoder tv:// -tv driver=v4l2:norm=NTSC:device=/dev/video0:input=1:fps=5 -nosound -ovc copy -o test.avi
-v4l2-ctl -d /dev/video0 --set-input=1
-avconv -f video4linux2 -i /dev/video0 -vframes 1 -s 720x480 test.jpg
-```
-Control-C that, and sftp the file to a host to playback:
-```
-sftp test.avi root@hostname:/folder/test.avi
-sftp test.avi root@hostname:/folder/test.jpg
-```
-
 Next, set up the HTTP server.
 ```
-sudo apt-get install lighttpd php5 php5-cgi
 sudo lighty-enable-mod fastcgi-php
 
-echo 'ipmi:password' | sudo tee --append /var/www/ipmipasswd
+read -s -p "Password for web ipmi console (user 'ipmi'): " IPMIPASS
+echo ""
+echo "ipmi:${IPMIPASS}" | sudo tee --append /var/www/ipmipasswd
 
 echo '' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo 'server.modules += ( "mod_auth" )' | sudo tee --append /etc/lighttpd/lighttpd.conf
@@ -71,44 +76,86 @@ echo '                "require" => "user=ipmi"' | sudo tee --append /etc/lighttp
 echo '        )' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo ')' | sudo tee --append /etc/lighttpd/lighttpd.conf
 
+cd /var/www/
+sudo mv /var/www/html /var/www/html.orig
+ln -s /opt/diy-ipmi/Pi3/html /var/www/html
+
 sudo service lighttpd force-reload
 ```
 
-NEED TO FINISH
+Lastly, get everything running right by completing some tasks and updating `/etc/rc.local` to ensure they happen at boot:
+```
+sudo chmod a+rw /dev/video0
+sudo mkdir -p /mnt/ramdisk
+sudo mount -t tmpfs -o size=3m tmps /mnt/ramdisk
+sudo chown www-data /mnt/ramdisk
+sudo v4l2-ctl -d /dev/video0 --set-input=1
+sudo chmod a+rw /dev/ttyUSB0
+
+sudo sed -i 's/exit 0//g' /etc/rc.local
+echo "chmod a+rw /dev/video0" | sudo tee --append /etc/rc.local
+echo "mkdir -p /mnt/ramdisk" | sudo tee --append /etc/rc.local
+echo "mount -t tmpfs -o size=3m tmps /mnt/ramdisk" | sudo tee --append /etc/rc.local
+echo "chown www-data /mnt/ramdisk" | sudo tee --append /etc/rc.local
+echo "v4l2-ctl -d /dev/video0 --set-input=1" | sudo tee --append /etc/rc.local
+echo "sleep 10" | sudo tee --append /etc/rc.local
+echo "echo pi >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
+echo "echo raspberry >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
+echo "chmod a+rw /dev/ttyUSB0" | sudo tee --append /etc/rc.local
+echo "exit 0" | sudo tee --append /etc/rc.local
+```
 
 
 ## Setting up the Pi 0
 
-Flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-03-03/. You must use this version for this to work. There aren't really security implications since the Pi0 can only be accessed from a serial session on the Pi3.
-
-Before putting the SD into the Pi0, Add this to the end of /boot/config.txt:
-```
-dtoverlay=dwc2
-enable_uart=1
-```
-Now insert the SD card and boot the Pi0 (which in turn boots the Pi0 since it get's power from the Pi3).
-
-Access the Pi0 from the Pi3 by SSHing into the Pi3 and running:
+Make sure you can access the Pi0 from the Pi3 by running:
 ```
 screen /dev/ttyUSB0 115200
 ```
-You can exit the session by hitting `Control-A` then typing `:quit` and pressing enter.
+Press enter until you see a login prompt. Do not login. Instead, exit the session by hitting `Control-A` then typing `:quit` and pressing enter.
 
-On the Pi0, run:
+On the Pi3, run:
 ```
-cd /home/pi
-wget https://raw.githubusercontent.com/pelya/android-keyboard-gadget/master/hid-gadget-test/jni/hid-gadget-test.c
-gcc -o sendkeys hid-gadget-test.c
-wget https://github.com/Fmstrat/diy-ipmi/blob/master/Pi0/enableHID.sh
-chmod +x /home/pi/enableHID.sh
-sudo /home/pi/enableHID.sh
-```
-Next, add the following to `/etc/rc.local`:
-```
-/home/pi/enableHID.sh
+echo "" >> /dev/ttyUSB0
+echo "pi" >> /dev/ttyUSB0
+echo "rasperry" >> /dev/ttyUSB0
+
+#wget https://raw.githubusercontent.com/pelya/android-keyboard-gadget/master/hid-gadget-test/jni/hid-gadget-test.c
+#wget https://github.com/Fmstrat/diy-ipmi/blob/master/Pi0/enableHID.sh
+B64=$(base64 /opt/diy-ipmi/Pi0/enableHID.sh)
+echo "echo $B64 > /tmp/B64" >> /dev/ttyUSB0
+echo "base64 -D /tmp/B64 > /home/pi/enableHID.sh" >> /dev/ttyUSB0
+echo "chmod +x /home/pi/enableHID.sh" >> /dev/ttyUSB0
+B64=$(base64 /opt/diy-ipmi/Pi0/sendkeys.c)
+echo "echo $B64 > /tmp/B64" >> /dev/ttyUSB0
+echo "base64 -D /tmp/B64 > /home/pi/sendkeys.c" >> /dev/ttyUSB0
+echo "gcc -o /home/pi/sendkeys /home/pi/sendkeys.c" >> /dev/ttyUSB0
+
+echo "sudo /home/pi/enableHID.sh" >> /dev/ttyUSB0
+echo "sudo sed -i 's/exit 0//g' /etc/rc.local" >> /dev/ttyUSB0
+echo "echo /home/pi/enableHID.sh | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
+echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 ```
 
-Now plug a micro-USB to USB cable into the Pi0 and the computer you wish to control. You send keystrokes by:
+
+## Troubleshooting
+
+If you're not getting video, here are some troubleshooting methods:
+
+Connect a source and test to see if it's working. (Input 0 is usually Composite, and Input 1 is usually S-Video)
+```
+apt-get install mencoder
+mencoder tv:// -tv driver=v4l2:norm=NTSC:device=/dev/video0:input=1:fps=5 -nosound -ovc copy -o test.avi
+v4l2-ctl -d /dev/video0 --set-input=1
+avconv -f video4linux2 -i /dev/video0 -vframes 1 -s 720x480 test.jpg
+```
+Control-C that, and sftp the files to a host for viewing and playback:
+```
+sftp test.avi root@hostname:/folder/test.avi
+sftp test.avi root@hostname:/folder/test.jpg
+```
+
+You can test keyboard control from the Pi0 with commands like:
 ```
 /home/pi/sendkeys /dev/hidg0 keyboard
 ```
