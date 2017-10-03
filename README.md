@@ -143,6 +143,9 @@ echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`. From here you can set up SSL and port forwarding to the device as your situation requires.
 
 
+## Tips
+- If you're using this on a Linux headless machine that's not running X11, it's easier to read the console if things are nice and big. Disabling the video driver is an easy way to accomplish this as it will just default to a generic NTSC or PAL signal. For instance, with an nVidia card, you could follow these directoins: https://askubuntu.com/questions/481414/install-nvidia-driver-instead-of-nouveau
+
 ## Troubleshooting
 
 If you're not getting video, here are some troubleshooting methods:
