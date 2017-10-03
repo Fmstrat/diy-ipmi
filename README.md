@@ -55,20 +55,19 @@ git clone https://github.com/Fmstrat/diy-ipmi
 
 To test the ability to reboot the computer via the relay board, run:
 ```
-#wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/Pi3/rebootServer.py
-#chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
+chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
 /opt/diy-ipmi/Pi3/rebootServer.py
 ```
 Now test this script to see if it resets the computer. Look in the python script to see the numbers associated with which of the 8 relays you could use for multiple computers.
 
 Next, set up the HTTP server.
 ```
-sudo lighty-enable-mod fastcgi-php
 
-read -s -p "Password for web ipmi console (user 'ipmi'): " IPMIPASS
+read -s -p "Password for web IPMI console (user 'ipmi'): " IPMIPASS
 echo ""
 echo "ipmi:${IPMIPASS}" | sudo tee --append /var/www/ipmipasswd
 
+sudo lighty-enable-mod fastcgi-php
 echo '' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo 'server.modules += ( "mod_auth" )' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo 'auth.debug = 2' | sudo tee --append /etc/lighttpd/lighttpd.conf
@@ -127,8 +126,6 @@ echo "" >> /dev/ttyUSB0
 echo "pi" >> /dev/ttyUSB0
 echo "raspberry" >> /dev/ttyUSB0
 
-#wget https://raw.githubusercontent.com/pelya/android-keyboard-gadget/master/hid-gadget-test/jni/hid-gadget-test.c
-#wget https://github.com/Fmstrat/diy-ipmi/blob/master/Pi0/enableHID.sh
 B64=$(base64 /opt/diy-ipmi/Pi0/enableHID.sh)
 echo "echo $B64 > /tmp/B64" >> /dev/ttyUSB0
 echo "base64 -D /tmp/B64 > /home/pi/enableHID.sh" >> /dev/ttyUSB0
