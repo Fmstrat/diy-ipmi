@@ -10,11 +10,9 @@
 <body onload="startRefresh()">
     <div class="fixed_width_wrapper">
     <center>
-       <div style="float: right" class="keyboard">
-          <br><br>
-          <div class="row">
-             <div onclick="resetServer()" class="key wide_2"><span class="darkkey key"><strong>Reset</strong></span></div>
-          </div>
+       <div style="float: right">
+             <br><br>
+             <img onclick="resetServer()" src="images/power.png">
        </div>
        <img id="monitor" src="">
     </center>
