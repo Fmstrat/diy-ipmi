@@ -122,8 +122,13 @@ On the Pi3, run:
 ```
 /opt/diy-ipmi/Pi3/checkPi0Login.sh
 
-sudo systemctl disable networking
-sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common
+echo "sudo systemctl enable serial-getty@ttyAMA0.service" >> /dev/ttyUSB0
+echo "sudo cp /lib/systemd/system/serial-getty@.service /etc/systemd/system/serial-getty@ttyAMA0.service" >> /dev/ttyUSB0
+echo "sudo sed -i 's/agetty --keep-baud 115200/agetty -a pi --keep-baud 115200/g' /etc/systemd/system/serial-getty@ttyAMA0.service" >> /dev/ttyUSB0
+echo "sudo systemctl daemon-reload" >> /dev/ttyUSB0
+
+echo "sudo systemctl disable networking" >> /dev/ttyUSB0
+echo "sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
 
 echo "rm -f /tmp/B64" >> /dev/ttyUSB0
 for LINE in $(base64 /opt/diy-ipmi/Pi0/enableHID.sh); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
