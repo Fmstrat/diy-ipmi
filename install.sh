@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo " -=- Getting software -=-"
-apt-get update
-apt-get install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get update
+sudo apt-get install libav-tools screen lighttpd php5 php5-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -32,7 +32,7 @@ echo ')' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo " -=- Linking the web files -=-"
 cd /var/www/
 sudo mv /var/www/html /var/www/html.orig
-ln -s /opt/diy-ipmi/Pi3/html /var/www/html
+sudo ln -s /opt/diy-ipmi/Pi3/html /var/www/html
 
 echo " -=- Restarting the web server -=-"
 sudo service lighttpd force-reload

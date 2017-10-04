@@ -46,11 +46,11 @@ The detailed process is to:
 
 
 ## Quick Install
-The quick method of installation is to simply run the install script:
+The quick method of installation is to simply run the install script as the `pi` user:
 ```
 wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/install.sh
 chmod +x install.sh
-sudo ./install.sh
+./install.sh
 ```
 Be sure to check the bottom of this README for Tips and Troubleshooting!
 
