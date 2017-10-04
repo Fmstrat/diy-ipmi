@@ -10,7 +10,7 @@ This system is under development.
 - 2x MicroSD cards (https://www.amazon.com/dp/B06XWN9Q99)
 - Relay board (https://www.amazon.com/dp/B0057OC5WK)
 - Easycap UTV007 device (https://www.amazon.com/dp/B0126O0RDC)
-- HDMI to S-Video (not all options work, but this one is tested) (https://www.amazon.com/gp/product/B01E56CV42)
+- HDMI to S-Video (not all options work, but these two have been tested) (https://www.amazon.com/dp/B012MDMWLM or https://www.amazon.com/gp/product/B01E56CV42)
 - USB TTL Serial cable (https://www.amazon.com/gp/product/B00QT7LQ88)
 
 A full wishlist totaling under $120 at the time of this writing can be found at http://a.co/8JlyjBq
@@ -195,3 +195,5 @@ To reset the keyboard controller run this on the Pi3:
 ```
 /opt/diy-ipmi/Pi3/resetPi0HID.sh
 ```
+
+If you get wierd USB errors, make sure your power brick is strong enough and that you're not trying to power the HDMI to S-Video converter via the Pi3.
