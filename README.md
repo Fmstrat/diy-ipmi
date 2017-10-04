@@ -62,8 +62,8 @@ If you would like to do things step by step to understand how things work, the f
 
 First, let's get all the software we need:
 ```
-apt-get update
-apt-get install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get update
+sudo apt-get install libav-tools screen lighttpd php5 php5-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -101,7 +101,7 @@ echo ')' | sudo tee --append /etc/lighttpd/lighttpd.conf
 
 cd /var/www/
 sudo mv /var/www/html /var/www/html.orig
-ln -s /opt/diy-ipmi/Pi3/html /var/www/html
+sudo ln -s /opt/diy-ipmi/Pi3/html /var/www/html
 
 sudo service lighttpd force-reload
 sudo systemctl restart lighttpd
