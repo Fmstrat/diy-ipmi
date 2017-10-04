@@ -164,7 +164,28 @@ You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`.
 
 
 ## Tips
-- If you're using this on a Linux headless machine that's not running X11, it's easier to read the console if things are nice and big. Disabling the video driver is an easy way to accomplish this as it will just default to a generic NTSC or PAL signal. For instance, with an nVidia card, you could follow these directoins: https://askubuntu.com/questions/481414/install-nvidia-driver-instead-of-nouveau
+If you're using this on a Linux headless machine that's not running X11, it's easier to read the console if things are nice and big. Disabling the video driver is an easy way to accomplish this as it will just default to a generic NTSC or PAL signal. For instance, with an nVidia card, you could follow these directoins: https://askubuntu.com/questions/481414/install-nvidia-driver-instead-of-nouveau
+
+To enable SSL, you need a combined PEM file which can be created by:
+```
+cat myserver.key mycert.crt myca.ca-bundle > mypem.pem
+```
+Then add this into the `/etc/lighttpd/lighttpd.conf` file (editing as required):
+```
+$SERVER["socket"] == ":443" {
+	ssl.engine = "enable"
+	ssl.pemfile = "/opt/certs/mypem.pem"
+	server.name = "host.domain.com"
+	server.document-root = "/var/www/html"
+	ssl.use-sslv2 = "disable"
+	ssl.use-sslv3 = "disable"
+	ssl.use-compression = "disable"
+	ssl.honor-cipher-order = "enable"
+	ssl.cipher-list = "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-RC4-SHA:ECDHE-RSA-RC4-SHA:ECDH-ECDSA-RC4-SHA:ECDH-RSA-RC4-SHA:ECDHE-RSA-AES256-SHA:RC4-SHA"
+	server.errorlog = "/var/log/lighttpd/serror.log"
+	accesslog.filename = "/var/log/lighttpd/saccess.log"
+}
+```
 
 ## Troubleshooting
 
