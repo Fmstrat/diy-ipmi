@@ -48,8 +48,9 @@ The detailed process is to:
 ## Quick Install
 The quick method of installation is to simply run the install script:
 ```
-sudo chmod +x /opt/diy-ipmi/install.sh
-sudo /opt/diy-ipmi/install.sh
+wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/install.sh
+chmod +x install.sh
+sudo ./install.sh
 ```
 Be sure to check the bottom of this README for Tips and Troubleshooting!
 
@@ -57,7 +58,7 @@ Be sure to check the bottom of this README for Tips and Troubleshooting!
 ## The long way
 If you would like to do things step by step to understand how things work, the following instructions can be used.
 
-### Setting up the Pi 3
+#### Setting up the Pi 3
 
 First, let's get all the software we need:
 ```
@@ -125,8 +126,7 @@ echo "chmod a+rw /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "exit 0" | sudo tee --append /etc/rc.local
 ```
 
-
-### Setting up the Pi 0
+#### Setting up the Pi 0
 
 Make sure you can access the Pi0 from the Pi3 by running:
 ```
@@ -170,7 +170,7 @@ echo "echo /home/pi/enableHID.sh | sudo tee --append /etc/rc.local" >> /dev/ttyU
 echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 ```
 
-### Get started
+#### Access the IPMI
 
 You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`. From here you can set up SSL and port forwarding to the device as your situation requires.
 
