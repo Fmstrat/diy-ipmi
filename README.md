@@ -121,6 +121,9 @@ On the Pi3, run:
 ```
 /opt/diy-ipmi/Pi3/resetPi0HID.sh
 
+sudo systemctl disable networking
+sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common
+
 echo "rm -f /tmp/B64" >> /dev/ttyUSB0
 for LINE in $(base64 /opt/diy-ipmi/Pi0/enableHID.sh); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
 echo "base64 -d /tmp/B64 > /home/pi/enableHID.sh" >> /dev/ttyUSB0
