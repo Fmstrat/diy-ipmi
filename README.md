@@ -51,7 +51,8 @@ apt-get update
 apt-get install libav-tools screen lighttpd php5 php5-cgi
 cd /opt
 git clone https://github.com/Fmstrat/diy-ipmi
-chmod +x /opt/diy-ipmi/Pi3/rebootServer.py
+chmod +x /opt/diy-ipmi/Pi3/*.py
+chmod +x /opt/diy-ipmi/Pi3/*.sh
 ```
 
 To test the ability to reboot the computer via the relay board, run:
@@ -103,10 +104,6 @@ echo "mkdir -p /mnt/ramdisk" | sudo tee --append /etc/rc.local
 echo "mount -t tmpfs -o size=3m tmps /mnt/ramdisk" | sudo tee --append /etc/rc.local
 echo "chown www-data /mnt/ramdisk" | sudo tee --append /etc/rc.local
 echo "v4l2-ctl -d /dev/video0 --set-input=1" | sudo tee --append /etc/rc.local
-echo "sleep 10" | sudo tee --append /etc/rc.local
-echo "echo '' >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
-echo "echo pi >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
-echo "echo raspberry >> /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "chmod a+rw /dev/ttyUSB0" | sudo tee --append /etc/rc.local
 echo "exit 0" | sudo tee --append /etc/rc.local
 ```
@@ -122,18 +119,25 @@ Press enter until you see a login prompt. Do not login. Instead, exit the sessio
 
 On the Pi3, run:
 ```
-echo "" >> /dev/ttyUSB0
-echo "pi" >> /dev/ttyUSB0
-echo "raspberry" >> /dev/ttyUSB0
+/opt/diy-ipmi/Pi3/resetPi0HID.sh
 
-B64=$(base64 /opt/diy-ipmi/Pi0/enableHID.sh)
-echo "echo $B64 > /tmp/B64" >> /dev/ttyUSB0
-echo "base64 -D /tmp/B64 > /home/pi/enableHID.sh" >> /dev/ttyUSB0
+echo "rm -f /tmp/B64" >> /dev/ttyUSB0
+for LINE in $(base64 /opt/diy-ipmi/Pi0/enableHID.sh); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
+echo "base64 -d /tmp/B64 > /home/pi/enableHID.sh" >> /dev/ttyUSB0
 echo "chmod +x /home/pi/enableHID.sh" >> /dev/ttyUSB0
-B64=$(base64 /opt/diy-ipmi/Pi0/sendkeys.c)
-echo "echo $B64 > /tmp/B64" >> /dev/ttyUSB0
-echo "base64 -D /tmp/B64 > /home/pi/sendkeys.c" >> /dev/ttyUSB0
+
+echo "rm -f /tmp/B64" >> /dev/ttyUSB0
+for LINE in $(base64 /opt/diy-ipmi/Pi0/sendkeys.c); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
+echo "base64 -d /tmp/B64 > /home/pi/sendkeys.c" >> /dev/ttyUSB0
 echo "gcc -o /home/pi/sendkeys /home/pi/sendkeys.c" >> /dev/ttyUSB0
+
+sudo apt-get install libusb-dev
+cd /opt/diy-ipmi/Pi0/
+gcc -o hub-ctrl hub-ctrl.c -lusb
+for LINE in $(base64 hub-ctrl); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
+echo "base64 -d /tmp/B64 > /home/pi/hub-ctrl" >> /dev/ttyUSB0
+echo "chmod +x /home/pi/hub-ctrl" >> /dev/ttyUSB0
+cd -
 
 echo "sudo /home/pi/enableHID.sh" >> /dev/ttyUSB0
 echo "sudo sed -i 's/exit 0//g' /etc/rc.local" >> /dev/ttyUSB0
