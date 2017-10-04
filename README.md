@@ -120,7 +120,7 @@ Press enter until you see a login prompt. Do not login. Instead, exit the sessio
 
 On the Pi3, run:
 ```
-/opt/diy-ipmi/Pi3/resetPi0HID.sh
+/opt/diy-ipmi/Pi3/checkPi0Login.sh
 
 sudo systemctl disable networking
 sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common
@@ -184,4 +184,9 @@ echo 'a' | /home/pi/sendkeys /dev/hidg0 keyboard
 echo 'return' | /home/pi/sendkeys /dev/hidg0 keyboard
 echo 'shift a' | /home/pi/sendkeys /dev/hidg0 keyboard
 echo 'left-meta space' | /home/pi/sendkeys /dev/hidg0 keyboard
+```
+
+To reset the keyboard controller run this on the Pi3:
+```
+/opt/diy-ipmi/Pi3/resetPi0HID.sh
 ```
