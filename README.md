@@ -48,7 +48,7 @@ The detailed process is to:
 First, let's get all the software we need:
 ```
 apt-get update
-apt-get install libav-tools screen lighttpd php5 php5-cgi
+apt-get install libav-tools screen lighttpd php5 php5-cgi git
 cd /opt
 git clone https://github.com/Fmstrat/diy-ipmi
 chmod +x /opt/diy-ipmi/Pi3/*.py
