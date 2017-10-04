@@ -71,6 +71,7 @@ echo "ipmi:${IPMIPASS}" | sudo tee --append /var/www/ipmipasswd
 
 sudo lighty-enable-mod fastcgi-php
 echo '' | sudo tee --append /etc/lighttpd/lighttpd.conf
+sudo adduser www-data gpio
 echo 'server.modules += ( "mod_auth" )' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo 'auth.debug = 2' | sudo tee --append /etc/lighttpd/lighttpd.conf
 echo 'auth.backend = "plain"' | sudo tee --append /etc/lighttpd/lighttpd.conf
@@ -88,6 +89,7 @@ sudo mv /var/www/html /var/www/html.orig
 ln -s /opt/diy-ipmi/Pi3/html /var/www/html
 
 sudo service lighttpd force-reload
+sudo systemctl restart lighttpd
 ```
 
 Lastly, get everything running right by completing some tasks and updating `/etc/rc.local` to ensure they happen at boot:
