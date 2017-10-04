@@ -8,9 +8,17 @@
     <script src="js/monitor.js"></script>
 </head>
 <body onload="startRefresh()">
+    <div class="fixed_width_wrapper">
     <center>
+       <div style="float: right" class="keyboard">
+          <br><br>
+          <div class="row">
+             <div onclick="resetServer()" class="key wide_2"><span class="darkkey key"><strong>Reset</strong></span></div>
+          </div>
+       </div>
        <img id="monitor" src="">
     </center>
+    </div>
     <br><br>
     <div class="fixed_width_wrapper">
         <div class="keyboard">

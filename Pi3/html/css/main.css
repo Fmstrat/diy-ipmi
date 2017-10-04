@@ -452,8 +452,11 @@ body {
     .keyboard .key:last-of-type,
     .keyboard .key_filler:last-of-type {
       margin-right: 0; }
-  .keyboard .key_filler {
-    pointer-events: none; }
+  .keyboard .darkkey {
+    color: white !important;
+    background: #999 !important;
+    text-align: center !important;
+    font-size: 1em !important; }
   .keyboard .key {
     border: 1px solid #aaa;
     padding-top: 0.25em;

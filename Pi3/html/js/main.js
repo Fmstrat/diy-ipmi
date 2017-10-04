@@ -26,6 +26,12 @@ function sendKeyToServer(key) {
 	$.post("key.php", { k: key }, sendKeysToServer); 
 }
 
+function resetServer() {
+        if (confirm("Are you sure you want to reset the machine?")) {
+		$.ajax("reset.php");
+        }
+}
+
 var command_pressed, shift_pressed, control_pressed, alt_pressed = false;
 
 (function() {
