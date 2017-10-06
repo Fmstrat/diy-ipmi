@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="css/solarized_dark.css">
     <script src="js/keypress-2.1.4.min.js"></script>
     <script src="js/monitor.js"></script>
+    <script>
+<?php
+	echo "var servers = [];";
+	$configuration = parse_ini_file("/etc/ipmi.conf", true);
+	$servers = array_keys($configuration);
+	foreach ($servers as $server) {
+		echo "servers['".$server."'] = { name:'".$server."', tty:'".$configuration[$server]['TTY']."', vid:'".$configuration[$server]['VID']."', pin:".$configuration[$server]['PIN']." }";
+	}
+?>
+    </script>
 </head>
 <body onload="startRefresh()">
     <div class="fixed_width_wrapper">
