@@ -103,6 +103,11 @@ cd /var/www/
 sudo mv /var/www/html /var/www/html.orig
 sudo ln -s /opt/diy-ipmi/Pi3/html /var/www/html
 
+echo '[Server 1]' | sudo tee --append /etc/ipmi.conf
+echo 'TTY=/dev/ttyUSB0' | sudo tee --append /etc/ipmi.conf
+echo 'VID=/dev/video0' | sudo tee --append /etc/ipmi.conf
+echo 'PIN=2' | sudo tee --append /etc/ipmi.conf
+
 sudo service lighttpd force-reload
 sudo systemctl restart lighttpd
 ```
