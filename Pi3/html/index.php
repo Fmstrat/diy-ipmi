@@ -24,7 +24,8 @@
              <br><br>
              <img onclick="resetServer()" src="images/power.png">
        </div>
-       <img id="monitor" src="">
+       <img style="position: absolute; top: 30px; left: 156px" id="monitor" src="NORTHWYCK.jpg">
+       <img style="position: relative" src="images/monitor.png">
     </center>
     </div>
     <br><br>
