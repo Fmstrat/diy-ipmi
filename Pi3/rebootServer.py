@@ -18,13 +18,19 @@ for i in pinList:
 
 SleepTimeL = 2
 
+# Set the pin
+
+pin = 2
+if len(sys.argv) > 1:
+   pin = sys.argv[1]
+
 # main loop
 
 try:
-  GPIO.output(2, GPIO.LOW)
+  GPIO.output(pin, GPIO.LOW)
   print "Relay 1 - Rebooting server"
   time.sleep(SleepTimeL);
-  GPIO.output(2, GPIO.HIGH)
+  GPIO.output(pin, GPIO.HIGH)
   time.sleep(SleepTimeL);
   GPIO.cleanup()
   print "Good bye!"

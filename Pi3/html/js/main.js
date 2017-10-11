@@ -23,12 +23,12 @@ function sendKeysToServer() {
 }
 
 function sendKeyToServer(key) {
-	$.post("key.php", { k: key }, sendKeysToServer); 
+	$.post("key.php", { tty: tty, k: key }, sendKeysToServer); 
 }
 
 function resetServer() {
         if (confirm("Are you sure you want to reset the machine?")) {
-		$.ajax("reset.php");
+		$.post("reset.php", { pin: pin }); 
         }
 }
 

@@ -7,8 +7,10 @@
     <script src="js/keypress-2.1.4.min.js"></script>
     <script src="js/monitor.js"></script>
     <script>
+ 	var servers = [];
+ 	//servers['Test Server'] = { name:'Test Server', tty:'/dev/ttyUSB0', vid:'/dev/video0', pin:2 }
+ 	//servers['Test Server 2'] = { name:'Test Server 2', tty:'/dev/ttyUSB1', vid:'/dev/video1', pin:2 }
 <?php
-	echo "var servers = [];";
 	$configuration = parse_ini_file("/etc/ipmi.conf", true);
 	$servers = array_keys($configuration);
 	foreach ($servers as $server) {
@@ -24,11 +26,15 @@
              <br><br>
              <img onclick="resetServer()" src="images/power.png">
        </div>
-       <img style="position: absolute; top: 30px; left: 156px" id="monitor" src="NORTHWYCK.jpg">
-       <img style="position: relative" src="images/monitor.png">
+       <img style="position: absolute; top: 30px; left: 156px" id="monitor" src="">
+       <img style="position: relative; width: 480; height:720" src="images/monitor.png">
     </center>
     </div>
-    <br><br>
+    <center>
+         <select onchange="onSelectChange(this)" id="servers">
+         </select>
+     </center>
+    <br>
     <div class="fixed_width_wrapper">
         <div class="keyboard">
             <section>
