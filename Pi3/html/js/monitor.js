@@ -2,6 +2,7 @@ var img;
 var tty;
 var pin;
 var vid;
+var inp;
 
 function startRefresh() {
 	var firstserver = '';
@@ -27,7 +28,12 @@ function selectServer(server) {
 	vid = servers[server].vid;
 	tty = servers[server].tty;
 	pin = servers[server].pin;
-	alert(vid);
+	inp = servers[server].inp;
+	setInput()
+}
+
+function setInput() {
+	$.post("input.php", { vid: vid, inp: inp });
 }
 
 function onSelectChange(option) {

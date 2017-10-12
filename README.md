@@ -108,6 +108,7 @@ sudo ln -s /opt/diy-ipmi/Pi3/html /var/www/html
 echo '[Server 1]' | sudo tee --append /etc/ipmi.conf
 echo 'TTY=/dev/ttyUSB0' | sudo tee --append /etc/ipmi.conf
 echo 'VID=/dev/video0' | sudo tee --append /etc/ipmi.conf
+echo 'INP=1' | sudo tee --append /etc/ipmi.conf
 echo 'PIN=2' | sudo tee --append /etc/ipmi.conf
 
 sudo service lighttpd force-reload
@@ -187,14 +188,17 @@ Multiple servers can be managed by using multile USB capture devices (one per se
 [My first server]
 TTY=/dev/ttyUSB0
 VID=/dev/video0
+INP=1
 PIN=2
 
 [My second server]
 TTY=/dev/ttyUSB1
 VID=/dev/video1
+INP=1
 PIN=3
 ```
 - When hooking up multiple TV tuners and USB-to-Serial devices to Pi0s, it is recommended to use a powered USB hub.
+- The `INP` field is `1` for s-video or `0` for composite
 - The `PIN` value is the pin on the relay board. The valid values are `2`, `3`, `4`, `17`, `27`, `22`, `10`, `9`.
 
 
@@ -226,7 +230,9 @@ $SERVER["socket"] == ":443" {
 
 If you're not getting video, here are some troubleshooting methods:
 
-Connect a source and test to see if it's working. (Input 0 is usually Composite, and Input 1 is usually S-Video)
+First make sure the `INP` field in `/etc/ipmi.conf` is set to the right input. Input 0 is usually Composite, and Input 1 is usually S-Video.
+
+Connect a source and test to see if it's working.
 ```
 apt-get install mencoder
 mencoder tv:// -tv driver=v4l2:norm=NTSC:device=/dev/video0:input=1:fps=5 -nosound -ovc copy -o test.avi

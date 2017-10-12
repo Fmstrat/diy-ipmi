@@ -8,13 +8,13 @@
     <script src="js/monitor.js"></script>
     <script>
  	var servers = [];
- 	//servers['Test Server'] = { name:'Test Server', tty:'/dev/ttyUSB0', vid:'/dev/video0', pin:2 }
- 	//servers['Test Server 2'] = { name:'Test Server 2', tty:'/dev/ttyUSB1', vid:'/dev/video1', pin:2 }
+ 	//servers['Test Server'] = { name:'Test Server', tty:'/dev/ttyUSB0', vid:'/dev/video0', inp: 1, pin:2 }
+ 	//servers['Test Server 2'] = { name:'Test Server 2', tty:'/dev/ttyUSB1', vid:'/dev/video1', inp: 1, pin:3 }
 <?php
 	$configuration = parse_ini_file("/etc/ipmi.conf", true);
 	$servers = array_keys($configuration);
 	foreach ($servers as $server) {
-		echo "servers['".$server."'] = { name:'".$server."', tty:'".$configuration[$server]['TTY']."', vid:'".$configuration[$server]['VID']."', pin:".$configuration[$server]['PIN']." }";
+		echo "servers['".$server."'] = { name:'".$server."', tty:'".$configuration[$server]['TTY']."', vid:'".$configuration[$server]['VID']."', inp: ".$configuration[$server]['INP'].", pin:".$configuration[$server]['PIN']." }";
 	}
 ?>
     </script>

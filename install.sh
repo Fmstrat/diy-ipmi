@@ -38,6 +38,7 @@ echo " -=- Making configuration -=-"
 echo '[Server 1]' | sudo tee --append /etc/ipmi.conf
 echo 'TTY=/dev/ttyUSB0' | sudo tee --append /etc/ipmi.conf
 echo 'VID=/dev/video0' | sudo tee --append /etc/ipmi.conf
+echo 'INP=1' | sudo tee --append /etc/ipmi.conf
 echo 'PIN=2' | sudo tee --append /etc/ipmi.conf
 
 echo " -=- Restarting the web server -=-"
