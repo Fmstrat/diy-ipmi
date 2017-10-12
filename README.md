@@ -46,12 +46,14 @@ The detailed process is to:
 
 
 ## Quick Install
-The quick method of installation is to simply run the install script as the `pi` user:
+The quick method of installation is to simply run the install script on the Pi3 as the `pi` user:
 ```
 wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/install.sh
 chmod +x install.sh
 ./install.sh
 ```
+Everything will be done on the Pi3 and Pi0 automatically with the video input defaulting to s-video.
+
 If you would like to manage multiple servers with one IPMI system, please see the [Managing multiple servers](#managing-multiple-servers) section below.
 
 Be sure to check the bottom of this README for [Tips](#tips) and [Troubleshooting](#troubleshooting)!
