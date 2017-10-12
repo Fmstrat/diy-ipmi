@@ -52,7 +52,9 @@ wget https://raw.githubusercontent.com/Fmstrat/diy-ipmi/master/install.sh
 chmod +x install.sh
 ./install.sh
 ```
-Be sure to check the bottom of this README for Tips and Troubleshooting!
+If you would like to manage multiple servers with one IPMI system, please see the [Managing multiple servers](#managing-multiple-servers) section below.
+
+Be sure to check the bottom of this README for [Tips](#tips) and [Troubleshooting](#troubleshooting)!
 
 
 ## The long way
@@ -176,8 +178,24 @@ echo "echo exit 0 | sudo tee --append /etc/rc.local" >> /dev/ttyUSB0
 ```
 
 #### Access the IPMI
-
 You should now be able to access the IPMI console at `http://<RaspberryPi3IP>/`. From here you can set up SSL and port forwarding to the device as your situation requires.
+
+
+## Managing multiple servers
+Multiple servers can be managed by using multile USB capture devices (one per server), multiple USB-to-Serial adapters each with their own Pi0 (one per server), and using one of the 8 relays on the relay board as the reset button. Once installed, edit `/etc/ipmi.conf`. The format should be:
+```
+[My first server]
+TTY=/dev/ttyUSB0
+VID=/dev/video0
+PIN=2
+
+[My second server]
+TTY=/dev/ttyUSB1
+VID=/dev/video1
+PIN=3
+```
+- When hooking up multiple TV tuners and USB-to-Serial devices to Pi0s, it is recommended to use a powered USB hub.
+- The `PIN` value is the pin on the relay board. The valid values are `2`, `3`, `4`, `17`, `27`, `22`, `10`, `9`.
 
 
 ## Tips
