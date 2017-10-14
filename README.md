@@ -23,7 +23,7 @@ On the Pi3, flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian
 
 On the Pi0, flash http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-03-03/. You must use this version for this to work. There aren't really security implications since the Pi0 can only be accessed from a serial session on the Pi3.
 
-Before putting the SD into the Pi0, Add this to the end of /boot/config.txt:
+Before putting the SD into the Pi0, add this to the end of /boot/config.txt:
 ```
 dtoverlay=dwc2
 enable_uart=1
