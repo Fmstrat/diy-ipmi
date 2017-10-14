@@ -18,9 +18,9 @@ function startRefresh() {
 	img = document.getElementById("monitor");
 	if (firstserver != '') {
 		selectServer(firstserver);
-		//img.addEventListener('load', imageLoaded)
-		//img.addEventListener('error', imageLoaded)
-		//img.src = "/image.php?t=" + new Date().getTime();
+		img.addEventListener('load', imageLoaded)
+		img.addEventListener('error', imageLoaded)
+		img.src = "/image.php?t=" + new Date().getTime();
 	}
 }
 
