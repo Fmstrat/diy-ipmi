@@ -2,7 +2,7 @@
 
 echo " -=- Getting software -=-"
 sudo apt-get update
-sudo apt-get install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get -y install libav-tools screen lighttpd php5 php5-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -76,7 +76,9 @@ echo "sudo systemctl daemon-reload" >> /dev/ttyUSB0
 
 echo " -=- Disabling network to speed Pi0 bootup -=-"
 echo "sudo systemctl disable networking" >> /dev/ttyUSB0
-echo "sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
+echo "sudo apt-get -y remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
+echo " -=- Waiting for removal of network to complete (60s) -=-"
+sleep 60
 
 echo " -=- Transfering files to Pi0 for HID -=-"
 echo "rm -f /tmp/B64" >> /dev/ttyUSB0
@@ -91,7 +93,7 @@ echo "base64 -d /tmp/B64 > /home/pi/sendkeys.c" >> /dev/ttyUSB0
 echo "gcc -o /home/pi/sendkeys /home/pi/sendkeys.c" >> /dev/ttyUSB0
 
 echo " -=- Compiling and transfering files to Pi0 for HID reset -=-"
-sudo apt-get install libusb-dev
+sudo apt-get -y install libusb-dev
 cd /opt/diy-ipmi/Pi0/
 gcc -o hub-ctrl hub-ctrl.c -lusb
 for LINE in $(base64 hub-ctrl); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
