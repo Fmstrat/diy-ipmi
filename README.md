@@ -67,7 +67,7 @@ If you would like to do things step by step to understand how things work, the f
 First, let's get all the software we need:
 ```
 sudo apt-get update
-sudo apt-get install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get -y install libav-tools screen lighttpd php5 php5-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -154,7 +154,8 @@ echo "sudo sed -i 's/agetty --keep-baud 115200/agetty -a pi --keep-baud 115200/g
 echo "sudo systemctl daemon-reload" >> /dev/ttyUSB0
 
 echo "sudo systemctl disable networking" >> /dev/ttyUSB0
-echo "sudo apt-get remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
+echo "sudo apt-get -y remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
+sleep 60
 
 echo "rm -f /tmp/B64" >> /dev/ttyUSB0
 for LINE in $(base64 /opt/diy-ipmi/Pi0/enableHID.sh); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
@@ -166,7 +167,7 @@ for LINE in $(base64 /opt/diy-ipmi/Pi0/sendkeys.c); do echo "echo $LINE >> /tmp/
 echo "base64 -d /tmp/B64 > /home/pi/sendkeys.c" >> /dev/ttyUSB0
 echo "gcc -o /home/pi/sendkeys /home/pi/sendkeys.c" >> /dev/ttyUSB0
 
-sudo apt-get install libusb-dev
+sudo apt-get -y install libusb-dev
 cd /opt/diy-ipmi/Pi0/
 gcc -o hub-ctrl hub-ctrl.c -lusb
 for LINE in $(base64 hub-ctrl); do echo "echo $LINE >> /tmp/B64" >> /dev/ttyUSB0; done
