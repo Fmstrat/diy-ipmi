@@ -201,7 +201,7 @@ INP=1
 PIN=3
 ```
 - When hooking up multiple TV tuners and USB-to-Serial devices to Pi0s, it is recommended to use a powered USB hub.
-- The `INP` field is `1` for s-video or `0` for composite
+- The `INP` field is `1` for s-video or `0` for composite. You can actually use one capture device for two servers by using both inputs.
 - The `PIN` value is the pin on the relay board. The valid values are `2`, `3`, `4`, `17`, `27`, `22`, `10`, `9`.
 
 
