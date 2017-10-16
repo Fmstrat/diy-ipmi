@@ -66,7 +66,13 @@ echo "exit 0" | sudo tee --append /etc/rc.local
 
 echo " -=- Time to set up the Pi0 -=-"
 echo " -=- Logging into the Pi0 -=-"
-/opt/diy-ipmi/Pi3/checkPi0Login.sh
+if ! /opt/diy-ipmi/Pi3/checkPi0Login.sh; then
+	echo " -=- Logging into the Pi0 as 'pi' with password 'raspberry' has failed -=-"
+	echo "     Open another terminal session and use 'screen /dev/ttyUSB0 115200' to login to the Pi0"
+	echo "     Once logged in, hit 'Ctrl-A' then type ':quit' to exit the screen session"
+	echo "     Lastly, return here and press 'Enter' to continue or 'Ctrl-C' to give up. -=-"
+	read CONT
+fi
 
 echo " -=- Setting up auto login on the serial terminal -=-"
 echo "sudo systemctl enable serial-getty@ttyAMA0.service" >> /dev/ttyUSB0
