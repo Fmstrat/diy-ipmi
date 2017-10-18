@@ -29,6 +29,21 @@ dtoverlay=dwc2
 enable_uart=1
 ```
 
+Before putting the SD into the Pi3, create a blank file called `SSH` on the boot drive to enable SSH.
+
+Also, if you will be connecting via Wifi, create a file in boot called `wpa_supplicant.conf` that uses unix based line feeds. To ensure that is the case, use `Notepad++` or another editor that allows you to change line feed types (bottom right), or copy the `config.txt` file and rename it. Include the following:
+```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=US
+
+network={
+    ssid="NETWORKNAME"
+    psk="PASSWORD"
+    key_mgmt=WPA-PSK
+}
+```
+
 
 ## Setting up the hardware
 Here is a diagram of how you connect all of the pieces:
