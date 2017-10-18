@@ -83,8 +83,8 @@ echo "sudo systemctl daemon-reload" >> /dev/ttyUSB0
 echo " -=- Disabling network to speed Pi0 bootup -=-"
 echo "sudo systemctl disable networking" >> /dev/ttyUSB0
 echo "sudo apt-get -y remove dhcpcd5 isc-dhcp-client isc-dhcp-common" >> /dev/ttyUSB0
-echo " -=- Waiting for removal of network to complete (60s) -=-"
-sleep 60
+echo " -=- Waiting for removal of network to complete (90s) -=-"
+sleep 90
 
 echo " -=- Transfering files to Pi0 for HID -=-"
 echo "rm -f /tmp/B64" >> /dev/ttyUSB0
