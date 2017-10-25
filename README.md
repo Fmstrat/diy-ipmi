@@ -1,5 +1,5 @@
-# A DIY IPMI system utilizing the Raspberry Pi
-A web-accessable IPMI system that provides full keyboard control, monitor view, and and the ability to reboot computers with standard motherboards remotely as if you were sitting in front of them with a keyboard and monitor.
+# A DIY IPMI / IP KVM system utilizing the Raspberry Pi
+A web-accessable IPMI / IP KVM system that provides full keyboard control, monitor view, and and the ability to reboot computers with standard motherboards remotely as if you were sitting in front of them with a keyboard and monitor.
 
 ![Screenshot](https://github.com/Fmstrat/diy-ipmi/raw/master/Resources/Screenshot.png)
 
