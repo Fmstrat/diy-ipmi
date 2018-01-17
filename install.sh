@@ -2,7 +2,7 @@
 
 echo " -=- Getting software -=-"
 sudo apt-get update
-sudo apt-get -y install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get -y install libav-tools screen lighttpd php php-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -44,6 +44,7 @@ echo 'PIN=2' | sudo tee --append /etc/ipmi.conf
 echo " -=- Restarting the web server -=-"
 sudo service lighttpd force-reload
 sudo systemctl restart lighttpd
+sudo systemctl enable lighttpd
 
 echo " -=- Final steps -=-"
 sudo chmod a+rw /dev/video0

@@ -82,7 +82,7 @@ If you would like to do things step by step to understand how things work, the f
 First, let's get all the software we need:
 ```
 sudo apt-get update
-sudo apt-get -y install libav-tools screen lighttpd php5 php5-cgi git
+sudo apt-get -y install libav-tools screen lighttpd php php-cgi git
 cd /opt
 sudo git clone https://github.com/Fmstrat/diy-ipmi
 sudo chown pi diy-ipmi -R
@@ -130,6 +130,7 @@ echo 'PIN=2' | sudo tee --append /etc/ipmi.conf
 
 sudo service lighttpd force-reload
 sudo systemctl restart lighttpd
+sudo systemctl enable lighttpd
 ```
 
 Lastly, get everything running right by completing some tasks and updating `/etc/rc.local` to ensure they happen at boot:
