@@ -15,7 +15,7 @@ A web-accessable IPMI / IP KVM system that provides full keyboard control, monit
 - HDMI to S-Video (not all options work, but these two have been tested) (https://www.amazon.com/dp/B012MDMWLM or https://www.amazon.com/gp/product/B01E56CV42)
 - USB TTL Serial cable (https://www.amazon.com/gp/product/B00QT7LQ88)
 
-A full wishlist totaling under $120 at the time of this writing can be found at http://a.co/8JlyjBq
+A full wishlist totaling under $120 at the time of this writing can be found at http://a.co/36FK9T8
 
 ## Before assembling
 
