@@ -1,0 +1,32 @@
+[Unit]
+Description=Takes snapshots of mpegts stream on UDP port 5005 using ffmpeg
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+After=diy-ipmi-video-lkv373a.service
+After=diy-ipmi-video-ramdisk.service
+After=diy-ipmi-video-lkv373a-unicast.service
+After=diy-ipmi-video-lkv373a-multicast.service
+
+[Service]
+WorkingDirectory=/mnt/ramdisk
+User=www-data
+EnvironmentFile=/etc/diy-ipmi-environment
+#TESTS
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -c:v copy -an -f mpegts pipe:1 | mplayer - # ~ .5-1.5 sec (ok speed, great quality) @1920x1080
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -q:v 2 -an -f mpegts pipe:1 | mplayer - # < .5 sec (good speed, good quality) @1788x1080
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -q:v 9 -an -f mpegts pipe:1 | mplayer - #  < .5 sec (great speed, ok quality)
+
+#ExecStart=/usr/bin/ffmpeg -i \"udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000\" -c:v mjpeg -q:v 2 -bsf:v mjpeg2jpeg -updatefirst 1 -y /mnt/ramdik/snapshot.jpg
+#ExecStart=/usr/bin/ffmpeg -f mpegts -i \"udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000\" -vf fps=15 -f image2 -updatefirst 1 -y /mnt/ramdisk/snapshot.jpg
+
+#ExecStart=/usr/bin/ffmpeg -i \"udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000\" -q:v 2 -an -vf \"fps=15,scale=-1:480\" -updatefirst 1 -y /mnt/ramdisk/snapshot.jpg -nostdin -nostats > /mnt/ramdisk/output.log 2>&1\
+
+#ExecStart=/usr/bin/ffmpeg -i \"udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000\" -vf fps=15 -s 720x480 -updatefirst 1 -y /mnt/ramdisk/snapshot.jpg -nostdin -nostats
+
+#ExecStart=/bin/bash -c '/usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -c:v copy -an -updatefirst 1 -y /mnt/ramdisk/snapshot.jpg -nostdin -nostats > /mnt/ramdisk/output.log 2>&1'
+ExecStart=/bin/true
+#Restart=always
+$RestartSec=3
+
+[Install]
+WantedBy=diy-ipmi-video.service

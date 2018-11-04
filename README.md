@@ -1,6 +1,11 @@
 # A DIY IPMI / IP KVM system utilizing the Raspberry Pi
 A web-accessable IPMI / IP KVM system that provides full keyboard control, monitor view, and and the ability to reboot computers with standard motherboards remotely as if you were sitting in front of them with a keyboard and monitor.
 
+Modified from Fmtstrat repo to be systemd service based with keyboard and video working over the network. Simply flash the Pi3 and Pi0 with the lastest Raspbian and update the diy-ipmi-environment variables per you environment (a static ip address is recommended for all devices), and use install-w.sh to automate the installation.
+- Raspberry Pi Zero W (https://www.adafruit.com/product/3400)
+- LKV373A HDMI Extender (https://www.eevblog.com/forum/reviews/lkv373a-hdmi-streamer-my-findings/) (https://www.amazon.com/AEMYO-Extender-V3-0-Ethernet-Supports/dp/B01LGUT9HW/)
+- SainSmart Web Relay (Not implemented yet) (https://www.amazon.com/SainSmart-Channels-Ethernet-Controller-Compatible/dp/B00NBGGCHK/)
+
 ![Screenshot](https://github.com/Fmstrat/diy-ipmi/raw/master/Resources/Screenshot.png)
 
 ## Requirements

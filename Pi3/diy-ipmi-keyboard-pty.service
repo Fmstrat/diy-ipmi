@@ -1,0 +1,13 @@
+[Unit]
+Description=Creates and binds two PTY terminals using socat
+PartOf=diy-ipmi-keyboard.service
+After=diy-ipmi-keyboard.service
+
+[Service]
+EnvironmentFile=/etc/diy-ipmi-environment
+ExecStart=/usr/bin/socat PTY,raw,echo=0,link=${IPMI_SERVER_VTTY0},user=pi,perm-late=662 PTY,raw,echo=0,link=${IPMI_SERVER_VTTY1},user=pi,perm-late=662
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=diy-ipmi-keyboard.service
