@@ -1,0 +1,12 @@
+[Unit]
+#http://alesnosek.com/blog/2016/12/04/controlling-a-multi-service-application-with-systemd/
+Description=Keeps listening for reverse call back from HID Server 
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

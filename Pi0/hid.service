@@ -1,0 +1,11 @@
+[Unit]
+Description=Enables HID
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/pi/enableHID.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

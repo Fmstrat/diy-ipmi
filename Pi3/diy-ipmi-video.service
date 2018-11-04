@@ -1,0 +1,12 @@
+[Unit]
+#http://alesnosek.com/blog/2016/12/04/controlling-a-multi-service-application-with-systemd/
+Description=Enables unicast streaming from LKV373A to Pi3 and redirects UDP to FFMPEG using socat
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

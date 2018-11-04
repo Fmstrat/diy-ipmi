@@ -1,0 +1,19 @@
+[Unit]
+Description=Listening for SSL on 4433 and piping to virtual tty using socat
+PartOf=diy-ipmi-keyboard.service
+After=diy-ipmi-keyboard.service
+After=diy-ipmi-keyboard-pty.service
+
+[Service]
+EnvironmentFile=/etc/diy-ipmi-environment
+#tcp
+#ExecStart=/usr/bin/socat open:${IPMI_SERVER_VTTY0},nonblock,echo=0,raw tcp-listen:4444,reuseaddr,fork
+
+#ssl
+#ExecStart=/usr/bin/socat open:${IPMI_SERVER_VTTY0},nonblock,echo=0,raw openssl-listen:4433,reuseaddr,fork,cert=${IPMI_SERVER_PEM},cafile=${CA_SERVER_CERT}
+ExecStart=/bin/bash -c "source /etc/diy-ipmi-environment && /usr/bin/socat open:$${IPMI_SERVER_VTTY0},nonblock,echo=0,raw openssl-listen:4433,reuseaddr,fork,cert=$${IPMI_SERVER_PEM},cafile=$${CA_SERVER_CERT}"
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=diy-ipmi-keyboard.service

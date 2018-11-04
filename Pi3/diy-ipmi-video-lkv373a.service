@@ -1,0 +1,35 @@
+[Unit]
+#https://www.eevblog.com/forum/reviews/lkv373a-hdmi-streamer-my-findings/
+Description=Configures LKV373A to send seleted fhd and hd video over either multicast/unicast to UDP port 5004
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+After=diy-ipmi-video-ramdisk.service
+
+[Service]
+WorkingDirectory=/mnt/ramdisk
+#network
+#http:/192.168.25.201/dev/info.cgi?action=network&dhcp=off&ipaddr0=192&ipaddr2=168&ipaddr3=25&ipaddr4=250&netmask0=255&netmask1=255&netmask2=255&netmask3=0&gw0=192&gw1=168&gw2=25&gw3=1
+
+#VID_SERVER_IPV4 
+#sudo tcpdump -i eth0 port 5004 -n -c 1 2>/dev/null | awk -F 'IP ' '/IP/{sub(".[^.]*.>.*$", "", $2 ); print $2}'
+
+#IPMI_SERVER_VID_IPV4 - Streaming target (multicast or unicast) 
+#sudo tcpdump -i eth0 port 5004 -n -c 1 2>/dev/null | awk -F '> ' '/>/{sub(".[^.]*:.*$", "", $2 ); print $2}'
+
+#Get latest VID SERVER IP and update environment file
+ExecStartPre=/bin/bash -c "source /etc/diy-ipmi-environment && sed 's/VID_SERVER_IPV4='\"$${VID_SERVER_IPV4}\"'/VID_SERVER_IPV4='\"$$(sudo tcpdump -i eth0 port 5004 -n -c 1 2>/dev/null | awk -F 'IP ' '/IP/{sub(\".[^.]*.>.*$$\", \"\", $$2 ); print $$2}')\"'/g' -i /etc/diy-ipmi-environment"
+
+EnvironmentFile=/etc/diy-ipmi-environment
+
+#userlogin
+ExecStartPre=/bin/bash -c "/usr/bin/wget --save-cookies /mnt/ramdisk/cookies.txt --keep-session-cookies --delete-after 'http://${VID_SERVER_IPV4}/dev/info.cgi?action=userlogin&user_name=${VID_SERVER_USER}&user_pwd=${VID_SERVER_PWD}'" 
+
+#videoinfo
+ExecStartPre=/bin/bash -c "/usr/bin/wget --load-cookies /mnt/ramdisk/cookies.txt --delete-after 'http://${VID_SERVER_IPV4}/dev/info.cgi?action=videoinfo&videoin_res=1920x1080_60P&videoin_frate=60&selvideoout_fhd=${VID_SERVER_SELVIDEOOUT_FHD}&videoout_fhd=${VID_SERVER_SELVIDEOOUT_FHD}&selvideoout_hd=${VID_SERVER_SELVIDEOOUT_HD}&videoout_hd=${VID_SERVER_SELVIDEOOUT_HD}&videoout_brate_fhd=15000&videoout_brate_hd=12000&videoout_brate_sd=4000'"
+
+#sreaminfo
+ExecStart=/bin/bash -c "/usr/bin/wget --load-cookies /mnt/ramdisk/cookies.txt --delete-after 'http://${VID_SERVER_IPV4}/dev/info.cgi?action=streaminfo&rtp=on&multicast=on&mcastaddr=${IPMI_SERVER_VID_IPV4}&port=5004'"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=diy-ipmi-video.service

@@ -1,0 +1,15 @@
+[Unit]
+Description=Redirects unicast UDP from LKV373A to a local host port, cleans up UDP packets with length of 0
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+After=diy-ipmi-video-lkv373a.service
+
+[Service]
+EnvironmentFile=/etc/diy-ipmi-environment
+#ExecStart=/usr/bin/socat -T 3 -u UDP4-RECV:5004,bind=${IPMI_SERVER_VID_IPV4},reuseaddr UDP4-SENDTO:127.0.0.1:5005 
+ExecStart=/bin/bash -c "source /etc/diy-ipmi-environment && /usr/bin/socat -T 3 -u UDP4-RECV:5004,bind=$${IPMI_SERVER_VID_IPV4},reuseaddr UDP4-SENDTO:127.0.0.1:5005"
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=diy-ipmi-video.service

@@ -1,0 +1,12 @@
+[Unit]
+Description=enableHID on startup 
+PartOf=diy-ipmi-keyboard.service
+After=diy-ipmi-keyboard.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/pi/enableHID.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=diy-ipmi-keyboard.service
