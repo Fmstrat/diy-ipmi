@@ -14,7 +14,7 @@
 	$configuration = parse_ini_file("/etc/ipmi.conf", true);
 	$servers = array_keys($configuration);
 	foreach ($servers as $server) {
-		echo "servers['".$server."'] = { name:'".$server."', tty:'".$configuration[$server]['TTY']."', vid:'".$configuration[$server]['VID']."', inp: ".$configuration[$server]['INP'].", pin:".$configuration[$server]['PIN']." }";
+		echo "servers['".$server."'] = { name:'".$server."', tty:'".$configuration[$server]['TTY']."', vid:'".$configuration[$server]['VID']."', inp: ".$configuration[$server]['INP'].", pin:".$configuration[$server]['PIN']." };";
 	}
 ?>
     </script>
