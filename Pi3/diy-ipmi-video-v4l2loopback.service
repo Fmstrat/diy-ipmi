@@ -1,0 +1,12 @@
+[Unit]
+Description=Starts v4l2loopback device on /dev/video0
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c '/sbin/modprobe v4l2loopback video_nr=0 && chmod a+rw /dev/video0'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=diy-ipmi-video.service

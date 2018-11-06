@@ -1,0 +1,24 @@
+[Unit]
+#Description=Takes snapshots of mpegts stream on UDP port 5005 using ffmpeg
+Description=Outputs mpegts stream from UDP port 5005 to v4l2loopback device using ffmpeg
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+After=diy-ipmi-video-lkv373a.service
+After=diy-ipmi-video-v4l2loopback.service
+After=diy-ipmi-video-ramdisk.service
+After=diy-ipmi-video-lkv373a-unicast.service
+After=diy-ipmi-video-lkv373a-multicast.service
+
+[Service]
+#TESTS
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -c:v copy -an -f mpegts pipe:1 | mplayer - # ~ .5-1.5 sec (ok speed, great quality) @1920x1080
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -q:v 2 -an -f mpegts pipe:1 | mplayer - # < .5 sec (good speed, good quality) @1788x1080
+#sudo /usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -q:v 9 -an -f mpegts pipe:1 | mplayer - #  < .5 sec (great speed, ok quality)
+
+ExecStart=/bin/bash -c '/usr/bin/ffmpeg -i "udp://127.0.0.1:5005?overrun_nonfatal=1&fifo_size=50000000" -c:v copy -an -f v4l2 -vcodec rawvideo /dev/video0 -nostdin -nostats > /mnt/ramdisk/output.log 2>&1'
+#ExecStart=/bin/true
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=diy-ipmi-video.service

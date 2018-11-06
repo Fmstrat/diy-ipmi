@@ -1,0 +1,21 @@
+[Unit]
+Description=Reverse shell to IPMI Server 
+PartOf=diy-ipmi-keyboard.service
+After=diy-ipmi-keyboard.service
+
+[Service]
+EnvironmentFile=/etc/diy-ipmi-environment
+
+#tcp
+#ExecStart=/usr/bin/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:${IPMI_SERVER_HID_IPV4}:4444,forever
+
+#ssl
+#ExecStart=/bin/sh -c '/usr/bin/socat exec:'"'"'bash -li'"'"',pty,stderr,setsid,sigint,sane openssl-connect:'"${IPMI_SERVER_HID_IPV4}"':4433,forever,cert='"${HID_SERVER_PEM}"',cafile='"${CA_SERVER_CERT},verify=0"''
+#ExecStart=/bin/sh -c '/usr/bin/socat exec:'"'"'bash -li'"'"',pty,stderr,setsid,sigint,sane openssl-connect:${IPMI_SERVER_HID_IPV4}:4433,forever,cert=${HID_SERVER_PEM},cafile=${CA_SERVER_CERT},verify=0'
+ExecStart=/bin/bash -c 'source /etc/diy-ipmi-environment && /usr/bin/socat exec:'"'"'bash -li'"'"',pty,stderr,setsid,sigint,sane openssl-connect:$${IPMI_SERVER_HID_IPV4}:4433,forever,cert=$${HID_SERVER_PEM},cafile=$${CA_SERVER_CERT},verify=0'
+Restart=always
+Restart=3 
+
+[Install]
+WantedBy=diy-ipmi-keyboard.service
+

@@ -1,0 +1,12 @@
+[Unit]
+Description=Creates ramdisk for snapshots
+PartOf=diy-ipmi-video.service
+After=diy-ipmi-video.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'mkdir -p /mnt/ramdisk && mount -t tmpfs -o size=3m tmps /mnt/ramdisk && chown www-data /mnt/ramdisk'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=diy-ipmi-video.service

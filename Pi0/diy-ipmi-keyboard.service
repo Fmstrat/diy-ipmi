@@ -1,0 +1,12 @@
+[Unit]
+#http://alesnosek.com/blog/2016/12/04/controlling-a-multi-service-application-with-systemd/
+Description=Creates reverse shell back to IPMI Server 
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
